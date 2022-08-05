@@ -56,5 +56,38 @@ def insert_user():
 
 
 
+@app.route('/select_all_users', methods=['GET'])
+def select_all_users():
+
+    result = ControllerUsuario().select_all_users()
+
+    if result:
+        return jsonify({'status': 'true', 'result': result})
+    else:
+        return jsonify({'status': 'false'})
+
+@app.route('/select_user_by_id/<string:user_id>', methods=['GET'])
+def select_user_by_id(user_id):
+
+    result = ControllerUsuario().select_user_by_id(user_id)
+
+    if result:
+        return jsonify({'status': 'true', 'result': result})
+    else:
+        return jsonify({'status': 'false'})
+
+
+@app.route('/update_user', methods=['POST'])
+def update_user():
+
+    post_data = request.get_json(silent=True)
+    
+    result = ControllerUsuario().update_user(    post_data.get('user_name') , post_data.get ('user_id') )
+
+    if result:
+        return jsonify({'status': 'true'})
+    else:
+        return jsonify({'status': 'false'})
+
 if __name__ == '__main__':
     app.run()
