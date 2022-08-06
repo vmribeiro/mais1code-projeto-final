@@ -6,6 +6,7 @@ class ControllerUsuario():
     def __init__(self):
         self.status = 1
 
+
     def insertUser(self, user_name):
         try:
             
@@ -61,6 +62,7 @@ class ControllerUsuario():
 
             print("Error during users selection. Error: {}".format(str(ex)))
             return False
+
 
     def select_user_by_id(self, user_id):
         try:

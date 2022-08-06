@@ -55,7 +55,6 @@ def insert_user():
         return jsonify({'status': 'false'})
 
 
-
 @app.route('/select_all_users', methods=['GET'])
 def select_all_users():
 
@@ -65,6 +64,7 @@ def select_all_users():
         return jsonify({'status': 'true', 'result': result})
     else:
         return jsonify({'status': 'false'})
+
 
 @app.route('/select_user_by_id/<string:user_id>', methods=['GET'])
 def select_user_by_id(user_id):
@@ -88,6 +88,7 @@ def update_user():
         return jsonify({'status': 'true'})
     else:
         return jsonify({'status': 'false'})
+
 
 if __name__ == '__main__':
     app.run()
