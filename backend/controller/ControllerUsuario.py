@@ -113,10 +113,10 @@ class ControllerUsuario():
             conn_obj = connection.conn
             cursor = conn_obj.cursor()
 
-            sql_select_query = """SELECT * FROM "MAIS1CODE_PROJETOFINAL".USERS WHERE USER_ID=%s"""
+            update_query = """SELECT * FROM "MAIS1CODE_PROJETOFINAL".USERS WHERE USER_ID = %s"""
     
             fields_to_select = (user_id)
-            cursor.execute(sql_select_query, fields_to_select)
+            cursor.execute(update_query, fields_to_select)
             record = cursor.fetchone()
 
             if record is None:
@@ -203,18 +203,17 @@ class ControllerUsuario():
             conn_obj = connection.conn
             cursor = conn_obj.cursor()
 
-            sql_select_query = """DELETE FROM "MAIS1CODE_PROJETOFINAL".USERS WHERE USER_ID=%s""" 
+            delete_query = """ DELETE FROM "MAIS1CODE_PROJETOFINAL".USERS 
+                               WHERE USER_ID = %s
+                           """ 
 
             fields_to_select = (user_id)
-            cursor.execute(sql_select_query, fields_to_select)
-            record = cursor.fetchone()
 
-            if record is None:
-                print("User {} not found!".format(user_id))
-                return False
+            cursor.execute(delete_query, fields_to_select)
+            conn_obj.commit()
+            count = cursor.rowcount
+            print(count, "Record deleted successfully from user table.")
             
-            print("Record deleted successfully into user table.")
-
             connection.close_connection(cursor = cursor, connection = conn_obj)
 
             return True

@@ -89,7 +89,14 @@ def update_user():
 
     post_data = request.get_json(silent=True)
     
-    result = ControllerUsuario().update_user(    post_data.get('user_name') , post_data.get('name') , post_data.get('data_de_nascimento') , post_data.get('telefone') , post_data.get('is_professional') , post_data.get('formacao') , post_data.get('especializacao') , post_data.get ('user_id') )
+    result = ControllerUsuario().update_user(    post_data.get('user_name') 
+                                               , post_data.get('name') 
+                                               , post_data.get('data_de_nascimento') 
+                                               , post_data.get('telefone') 
+                                               , post_data.get('is_professional') 
+                                               , post_data.get('formacao') 
+                                               , post_data.get('especializacao') 
+                                               , post_data.get ('user_id') )
 
     if result:
         return jsonify({'status': 'true'})
@@ -98,7 +105,7 @@ def update_user():
 
 
 
-@app.route('/delete_user/<string:user_id>', methods=['DELETE'])
+@app.route('/delete_user/<string:user_id>', methods=['GET'])
 def delete_user(user_id):
 
     result = ControllerUsuario().delete_user(user_id)
