@@ -1,0 +1,8 @@
+{
+    "host":     "localhost"
+  , "port":     "5432"
+  , "username": "postgres"
+  , "password": "Dani699419*"
+  , "database": "MAIS1CODE_PROJETO_FINAL"
+  , "ssl_mode": "require"
+}
