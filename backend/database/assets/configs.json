@@ -2,7 +2,7 @@
     "host":     "localhost"
   , "port":     "5432"
   , "username": "postgres"
-  , "password": "admin"
-  , "database": "MAIS1CODE_PROJETOFINAL"
+  , "password": "Dani699419*"
+  , "database": "MAIS1CODE_PROJETO_FINAL"
   , "ssl_mode": "require"
 }
