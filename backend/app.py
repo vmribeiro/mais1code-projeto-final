@@ -54,7 +54,8 @@ def insert_user():
                                               post_data.get('is_professional'),
                                               post_data.get('formacao'),
                                               post_data.get('especializacao'),
-                                              post_data.get('senha') 
+                                              post_data.get('senha'),
+                                              post_data.get('email')
                                               )
 
     if result:
@@ -99,6 +100,7 @@ def update_user():
                                                , post_data.get('formacao') 
                                                , post_data.get('especializacao') 
                                                , post_data.get('senha')
+                                               , post_data.get('email')
                                                 )
 
     if result:

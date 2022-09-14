@@ -7,18 +7,18 @@ class ControllerUsuario():
         self.status = 1
 
 
-    def insertUser(self, user_name , name, data_de_nascimento, telefone, is_professional, formacao, especializacao, senha):
+    def insertUser(self, user_name , name, data_de_nascimento, telefone, is_professional, formacao, especializacao, senha, email):
         try:
             
             connection = Connection()
             conn_obj = connection.conn
             cursor = conn_obj.cursor()
 
-            insert_query = """ INSERT INTO "MAIS1CODE_PROJETOFINAL".USERS (  USER_NAME, NAME, DATA_DE_NASCIMENTO, TELEFONE, IS_PROFESSIONAL, FORMACAO, ESPECIALIZACAO, SENHA     ) 
-                                              VALUES                    (           %s,   %s,                 %s,       %s,              %s,       %s,             %s,    %s   )
+            insert_query = """ INSERT INTO "MAIS1CODE_PROJETOFINAL".USERS (  USER_NAME, NAME, DATA_DE_NASCIMENTO, TELEFONE, IS_PROFESSIONAL, FORMACAO, ESPECIALIZACAO, SENHA, EMAIL     ) 
+                                              VALUES                    (           %s,   %s,                 %s,       %s,              %s,       %s,             %s,    %s,    %s   )
                     """
 
-            record_to_insert = ( user_name , name, data_de_nascimento, telefone, is_professional, formacao, especializacao, senha,)
+            record_to_insert = ( user_name , name, data_de_nascimento, telefone, is_professional, formacao, especializacao, senha, email,)
 
             cursor.execute(insert_query, record_to_insert)
             conn_obj.commit()
@@ -106,7 +106,7 @@ class ControllerUsuario():
             return False
 
 
-    def update_user(self,  user_id, user_name = "nan", name = "nan", data_de_nascimento = "nan", telefone = "nan", is_professional = "nan", formacao = "nan", especializacao = "nan", senha = "nan"):
+    def update_user(self,  user_id, user_name = "nan", name = "nan", data_de_nascimento = "nan", telefone = "nan", is_professional = "nan", formacao = "nan", especializacao = "nan", senha = "nan", email = "nan"):
         try:
             
             connection = Connection()
@@ -136,6 +136,7 @@ class ControllerUsuario():
                                                                 , FORMACAO              = %s
                                                                 , ESPECIALIZACAO        = %s
                                                                 , SENHA                 = %s
+                                                                ,EMAIL                  = %s
                                 WHERE USER_ID = %s
                             """
 
@@ -177,6 +178,10 @@ class ControllerUsuario():
                 treated_senha = senha
             else: treated_senha = record[8]
 
+            if email != "nan":
+                treated_email = email
+            else: treated_email = record[9]
+
             print('aqui 3')
 
 
@@ -188,6 +193,7 @@ class ControllerUsuario():
                                                                 , treated_formacao
                                                                 , treated_especializacao
                                                                 , treated_senha
+                                                                , treated_email
                                                                 , user_id )
             
             cursor.execute(update_query, fields_to_update)
