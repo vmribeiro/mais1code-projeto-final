@@ -7,18 +7,18 @@ class ControllerUsuario():
         self.status = 1
 
 
-    def insertUser(self, user_name , name, data_de_nascimento, telefone, is_professional, formacao, especializacao):
+    def insertUser(self, user_name , name, data_de_nascimento, telefone, is_professional, formacao, especializacao, senha, email):
         try:
             
             connection = Connection()
             conn_obj = connection.conn
             cursor = conn_obj.cursor()
 
-            insert_query = """ INSERT INTO "MAIS1CODE_PROJETOFINAL".USERS (  USER_NAME, NAME, DATA_DE_NASCIMENTO, TELEFONE, IS_PROFESSIONAL, FORMACAO, ESPECIALIZACAO     ) 
-                                              VALUES                    (           %s,   %s,                 %s,       %s,              %s,       %s,             %s   )
+            insert_query = """ INSERT INTO "MAIS1CODE_PROJETOFINAL".USERS (  USER_NAME, NAME, DATA_DE_NASCIMENTO, TELEFONE, IS_PROFESSIONAL, FORMACAO, ESPECIALIZACAO, SENHA, EMAIL     ) 
+                                              VALUES                    (           %s,   %s,                 %s,       %s,              %s,       %s,             %s,    %s,    %s   )
                     """
 
-            record_to_insert = ( user_name , name, data_de_nascimento, telefone, is_professional, formacao, especializacao,)
+            record_to_insert = ( user_name , name, data_de_nascimento, telefone, is_professional, formacao, especializacao, senha, email,)
 
             cursor.execute(insert_query, record_to_insert)
             conn_obj.commit()
@@ -106,7 +106,7 @@ class ControllerUsuario():
             return False
 
 
-    def update_user(self,  user_id, user_name = "nan", name = "nan", data_de_nascimento = "nan", telefone = "nan", is_professional = "nan", formacao = "nan", especializacao = "nan"):
+    def update_user(self,  user_id, user_name = "nan", name = "nan", data_de_nascimento = "nan", telefone = "nan", is_professional = "nan", formacao = "nan", especializacao = "nan", senha = "nan", email = "nan"):
         try:
             
             connection = Connection()
@@ -114,10 +114,12 @@ class ControllerUsuario():
             cursor = conn_obj.cursor()
 
             update_query = """SELECT * FROM "MAIS1CODE_PROJETOFINAL".USERS WHERE USER_ID = %s"""
+            print('aqui 1')
     
-            fields_to_select = (user_id)
+            fields_to_select = (user_id ,)
             cursor.execute(update_query, fields_to_select)
             record = cursor.fetchone()
+            print('aqui 2')
 
             if record is None:
                 print("User {} not found!".format(user_id))
@@ -133,6 +135,8 @@ class ControllerUsuario():
                                                                 , IS_PROFESSIONAL       = %s
                                                                 , FORMACAO              = %s
                                                                 , ESPECIALIZACAO        = %s
+                                                                , SENHA                 = %s
+                                                                ,EMAIL                  = %s
                                 WHERE USER_ID = %s
                             """
 
@@ -170,6 +174,16 @@ class ControllerUsuario():
                 treated_especializacao = especializacao
             else: treated_especializacao = record[7]
 
+            if senha != "nan":
+                treated_senha = senha
+            else: treated_senha = record[8]
+
+            if email != "nan":
+                treated_email = email
+            else: treated_email = record[9]
+
+            print('aqui 3')
+
 
             fields_to_update = (                                  treated_user_name
                                                                 , treated_name
@@ -177,12 +191,15 @@ class ControllerUsuario():
                                                                 , treated_telefone
                                                                 , treated_is_professional
                                                                 , treated_formacao
-                                                                , treate_
+                                                                , treated_especializacao
+                                                                , treated_senha
+                                                                , treated_email
                                                                 , user_id )
             
             cursor.execute(update_query, fields_to_update)
             conn_obj.commit()
             count = cursor.rowcount
+            print('aqui 4')
             print(count, "Record updated successfully into user table.")
 
 
