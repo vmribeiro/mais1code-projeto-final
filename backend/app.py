@@ -109,6 +109,20 @@ def update_user():
         return jsonify({'status': 'false'})
 
 
+@app.route('/login', methods=['POST'])
+def login():
+
+    post_data = request.get_json(silent=True)
+    
+    result = ControllerUsuario().login(     post_data.get('user_name') 
+                                          , post_data.get('senha')
+    )
+
+    if result:
+        return jsonify({'status': 'true', 'result': result})
+    else:
+        return jsonify({'status': 'false'})
+
 
 @app.route('/delete_user/<string:user_id>', methods=['GET'])
 def delete_user(user_id):

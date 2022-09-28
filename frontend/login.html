@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+     <!--bootstrap css-->
+     <link rel="stylesheet" href="styleLogin.css">
+
+     <link rel="stylesheet" href="node_modules/bootstrap/compiler/bootstrap.css">
+
+    
+
+  <title>Login</title>
+</head>
+
+<body>
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+
+        <div class="container">
+
+             <a class="navbar-brand h1 mb-0" href="home.html">PSG.cat</a>
+
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSite">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+       
+             <div class="collapse navbar-collapse" id="navbarSite">
+
+              <ul class="navbar-nav mr-auto">
+
+                  <li class="nav-item">
+                    <a class="nav-link" href="login.html">Entrar</a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link" href="cadastro.html">Cadastre-se</a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Serviços</a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Depoimentos</a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Contatos</a>
+                  </li>
+
+              </ul>
+
+              <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item dropdown">
+
+                  <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="navDrop">
+                    Social
+                  </a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Facebook</a>
+                    <a class="dropdown-item" href="#">Twitter</a>
+                    <a class="dropdown-item" href="#">Facebook</a>
+                  </div>
+
+                </li>
+
+              </ul>
+
+              <form class="form-inline">
+                <input class="form-control ml-4 mr-2" type="search" placeholder="Buscar...">
+                  <button class="btn btn-dark" type="submit">OK</button>
+
+                
+              </form>
+           </div>
+        </div>
+      
+      
+    </nav>
+
+    <div class="p-3 mb-2 bg-white text-dark">
+
+    <br> 
+    <br>
+
+  <div id="codigo_vue_js"></div>
+  <img src="imgs/animaçao.svg" class= "left-login-image" alt="animaçao" height="600" width="630">
+             
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+  <script>
+    new Vue({
+        el: '#codigo_vue_js',
+        template: `
+            <div class="container">
+                
+
+            <div class="right-Login"></div>
+
+            <div class="card-Login">
+                <h2 class="text-center"><strong>LOGIN <strong></h2>
+                <br>
+
+                <form class="form" id="form">
+
+                
+                    <div class="form-row" >
+                        <label for="username">Nome de usuário</label>
+                        <input type="text" class="form-control" id="username" placeholder="edylla123" v-model="username" required>
+                        
+                        <br>
+                        <span class="text-danger" v-text="result_username"></span>
+                    </div>    
+                                
+                    <div class="form-row">
+                            <label for="password">Senha</label>
+                            <input type="password" class="form-control" id="password" placeholder="Senha" v-model="password" required>
+                            
+                            <br><br>
+                            <span class="text-danger" v-text="result_password"></span>
+                    </div>
+
+                   <br>
+                
+                    <button v-on:click.prevent="validate" class="btn btn-outline-info">Entrar</button>
+
+                    <br>
+                    <br>
+
+                    <h6> Ainda não possui cadastro?<h6>
+                        <br>
+                        <a href="cadastro.html"> CADASTRE-SE </a>
+
+
+                </form>
+                
+            </div>
+
+
+            </div>
+            </div>
+
+        `,
+        data() {
+            return {
+                username: '',
+                password: '',
+               
+
+                result_username: '',
+                result_password: '',
+               
+            }
+        },
+        methods: {
+            validate() {
+               
+                username = String(this.username);
+                password = String(this.password);
+                check = 0;
+
+                //1. Username deve ser válido
+                if(username == '') {
+                    this.result_username = 'Nome de usuário não pode ser vazio';
+                } else {
+                    this.result_username = '';
+                    check = check + 1;
+                }
+
+                //2. Senha deve ter no mínimo 8 caracteres
+                pass_size = password.length;
+                if(! (pass_size >= 8)){
+                    this.result_password = 'Senha não é válida';
+                } else {
+                    check = check + 1;
+                }
+
+                if(check >= 2){
+
+                    axios.post('http://127.0.0.1:5000/login',  {
+                              user_name: username
+                            , senha: password
+                    })
+                    .then(function (response) {
+                        console.log(response);
+                        console.log(response['data']['status'] == 'true');
+                        console.log(response['data']['status'] == 'false');
+                        if(response['data']['status'] == 'true'){
+                            console.log('Logado!');
+
+                            // Exemplo de retorno
+
+                            // "result": {
+                            //     "data_de_nascimento": "21/11/1997",
+                            //     "especializacao": "Análise de Dados",
+                            //     "fomacao": "Sistemas de Informação",
+                            //     "id": 1,
+                            //     "name": "Victor Ribeiro",
+                            //     "profissional": "PRESTADOR",
+                            //     "telefone": "5511976413510"
+                            // },
+                            // "status": "true"
+
+                            user_id             = response['data']['result']['id'];
+                            full_name           = response['data']['result']['name'];
+                            profissional        = response['data']['result']['profissional'];
+                            especializacao      = response['data']['result']['especializacao'];
+                            data_nascimento     = response['data']['result']['data_nascimento'];
+                            formacao            = response['data']['result']['formacao'];
+
+                            localStorage.setItem('user_id',user_id        );
+                            localStorage.setItem('full_name',full_name      );
+                            localStorage.setItem('profissional',profissional   );
+                            localStorage.setItem('especializacao',especializacao );
+                            localStorage.setItem('data_nascimento',data_nascimento);
+                            localStorage.setItem('formacao',formacao       );
+
+                            location.assign('home.html');
+
+                        }
+                        
+                        if(response['data']['status'] == 'false'){
+                            console.log('here');
+                            window.alert('Usuário não encontrado. Tente novamente.');
+                        }
+                    })
+                    .catch(function (error) {
+                        window.alert('Formulário deve estar completo e de acordo com os requisitos.');
+                    });
+
+                }
+
+               
+            },
+
+            check_login(){
+                if(localStorage.getItem("full_name") === null){
+                    console.log('começar login');
+                } else {
+                    location.assign('home.html')
+                }
+            }
+
+        },
+
+        beforeMount(){
+            this.check_login()
+        },
+
+    })
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/6b3043e23a.js" crossorigin="anonymous"></script>
+  
+  
+  
+
+</body>
+</html>
+

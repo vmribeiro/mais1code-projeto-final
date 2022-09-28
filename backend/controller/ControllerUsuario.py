@@ -18,7 +18,7 @@ class ControllerUsuario():
                                               VALUES                    (           %s,   %s,                 %s,       %s,              %s,       %s,             %s,    %s,    %s   )
                     """
 
-            record_to_insert = ( user_name , name, data_de_nascimento, telefone, is_professional, formacao, especializacao, senha, email,)
+            record_to_insert = ( user_name , name, data_de_nascimento, telefone, is_professional, formacao, especializacao, senha, email, )
 
             cursor.execute(insert_query, record_to_insert)
             conn_obj.commit()
@@ -57,7 +57,8 @@ class ControllerUsuario():
                         , 'telefone':           row[4]
                         , 'profssional':        row[5]
                         , 'formacao':           row[6]
-                        , 'especializacao':     row[7]})
+                        , 'especializacao':     row[7]
+                })
 
             connection.close_connection(cursor = cursor, connection = conn_obj)
 
@@ -93,7 +94,46 @@ class ControllerUsuario():
                     , 'telefone': record[4]
                     , 'profissional': record[5]
                     , 'fomacao': record[6]
-                    , 'especializacao': record[7]}
+                    , 'especializacao': record[7]
+            }
+
+
+            connection.close_connection(cursor = cursor, connection = conn_obj)
+
+            return user
+
+        except Exception as ex:
+
+            print("Error during user selection. Error: {}".format(str(ex)))
+            return False
+
+
+    def login(self, username, password):
+        try:
+            
+            connection = Connection()
+            conn_obj = connection.conn
+            cursor = conn_obj.cursor()
+
+            sql_select_query = """SELECT * FROM "MAIS1CODE_PROJETOFINAL".USERS WHERE USER_NAME=%s AND SENHA=%s"""
+    
+            fields_to_select = (username, password)
+            cursor.execute(sql_select_query, fields_to_select)
+            record = cursor.fetchone()
+
+            if record is None:
+                print("User {} not found!".format(username))
+                return False
+
+            user = {
+                      'id': record[0]
+                    , 'name': record[2]
+                    , 'data_de_nascimento': record[3]
+                    , 'telefone': record[4]
+                    , 'profissional': record[5]
+                    , 'fomacao': record[6]
+                    , 'especializacao': record[7]
+            }
 
 
             connection.close_connection(cursor = cursor, connection = conn_obj)
@@ -114,12 +154,10 @@ class ControllerUsuario():
             cursor = conn_obj.cursor()
 
             update_query = """SELECT * FROM "MAIS1CODE_PROJETOFINAL".USERS WHERE USER_ID = %s"""
-            print('aqui 1')
     
             fields_to_select = (user_id ,)
             cursor.execute(update_query, fields_to_select)
             record = cursor.fetchone()
-            print('aqui 2')
 
             if record is None:
                 print("User {} not found!".format(user_id))
@@ -182,7 +220,6 @@ class ControllerUsuario():
                 treated_email = email
             else: treated_email = record[9]
 
-            print('aqui 3')
 
 
             fields_to_update = (                                  treated_user_name
@@ -199,7 +236,6 @@ class ControllerUsuario():
             cursor.execute(update_query, fields_to_update)
             conn_obj.commit()
             count = cursor.rowcount
-            print('aqui 4')
             print(count, "Record updated successfully into user table.")
 
 
