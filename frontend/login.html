@@ -197,9 +197,7 @@
                             , senha: password
                     })
                     .then(function (response) {
-                        console.log(response);
-                        console.log(response['data']['status'] == 'true');
-                        console.log(response['data']['status'] == 'false');
+                        
                         if(response['data']['status'] == 'true'){
                             console.log('Logado!');
 

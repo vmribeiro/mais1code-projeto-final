@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PSG.cat</title>
 
-  <!--bootstrap css-->
+    <!--bootstrap css-->
     <link rel="stylesheet" href="node_modules/bootstrap/compiler/bootstrap.css">
-
     <link rel="stylesheet" href="node_modules/bootstrap/compiler/style.css">
 
   </head>
@@ -54,6 +53,7 @@
 
       <span class="carousel-control-next-icon"></span>
       <span class="sr-only">Avançar</span>
+
     </a>
 
    </div >
@@ -91,7 +91,6 @@
     <div class="col-sm-4">
 
       <div class="card">
-  
 
         <div class="card-body">
           <img src="imgs/avatar/avatar3.jpg" alt="avatar" height="40" width="50">
@@ -351,7 +350,7 @@
                     if(localStorage.getItem("full_name") === null){
                         console.log('need to login');
                     } else {
-                        this.full_name = localStorage.getItem("full_name");
+                        this.full_name = localStorage.getItem("full_name").split(' ')[0];
                     }
                 },
                 logout(){

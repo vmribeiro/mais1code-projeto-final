@@ -322,7 +322,7 @@
 
                 //6. Especialização não deve ser vazia
                 if(especializacao == '') {
-                    this.result_especializacao = 'Nome de usuário não pode ser vazio';
+                    this.result_especializacao = 'Especialização não pode ser vazia. Caso não tenha, preencher com: "Não possuo"';
                 } else {
                     this.result_especializacao = '';
                     check = check + 1;
@@ -330,7 +330,7 @@
 
                 //7. Formacao não deve ser vazia
                 if(formacao == '') {
-                    this.result_formacao = 'Nome de usuário não pode ser vazio';
+                    this.result_formacao = 'Formação não pode ser vazia. Caso não tenha, preencher com: "Não possuo"';
                 } else {
                     this.result_formacao = '';
                     check = check + 1;
@@ -380,6 +380,7 @@
                             , email: email
                     })
                     .then(function (response) {
+                        window.alert('Cadastro feito! Você será redirecionado para a tela de login.');
                         location.assign('login.html');
                     })
                     .catch(function (error) {
